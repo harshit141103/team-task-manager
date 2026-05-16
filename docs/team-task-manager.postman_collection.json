@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "Team Task Manager API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000/api" },
+    { "key": "accessToken", "value": "" },
+    { "key": "projectId", "value": "" },
+    { "key": "taskId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@teamtask.dev\",\n  \"password\": \"ChangeMe123!\"\n}" },
+        "url": "{{baseUrl}}/auth/login/"
+      }
+    },
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"New User\",\n  \"email\": \"new@teamtask.dev\",\n  \"password\": \"ChangeMe123!\"\n}" },
+        "url": "{{baseUrl}}/auth/register/"
+      }
+    },
+    {
+      "name": "Projects - List",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/projects/?search=launch&ordering=-updated_at"
+      }
+    },
+    {
+      "name": "Projects - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Customer Success Workspace\",\n  \"description\": \"Operational roadmap for onboarding customers.\",\n  \"color\": \"#f59e0b\"\n}" },
+        "url": "{{baseUrl}}/projects/"
+      }
+    },
+    {
+      "name": "Tasks - List",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/tasks/?project={{projectId}}&status=todo&search=qa"
+      }
+    },
+    {
+      "name": "Tasks - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"project\": \"{{projectId}}\",\n  \"title\": \"Prepare launch checklist\",\n  \"description\": \"Coordinate release readiness.\",\n  \"priority\": \"high\",\n  \"status\": \"todo\"\n}" },
+        "url": "{{baseUrl}}/tasks/"
+      }
+    },
+    {
+      "name": "Comments - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"task\": \"{{taskId}}\",\n  \"body\": \"Looks good from product.\"\n}" },
+        "url": "{{baseUrl}}/comments/"
+      }
+    },
+    {
+      "name": "Analytics - Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/analytics/dashboard/"
+      }
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health/"
+      }
+    }
+  ]
+}
